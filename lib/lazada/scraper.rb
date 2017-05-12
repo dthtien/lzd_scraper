@@ -20,7 +20,6 @@ class LzdScraper
       review[:product_name] = path.split('-').join(' ')
       review[:content] = get_review_per_page(path)
       reviews << review
-      break if count == 3
     end
     reviews
   end
