@@ -10,18 +10,18 @@ class LzdScraper
   end
 
   def get_all_reviews
-    reviews = []
+    data_reviews = []
     count = 1
     @product_paths.each do |path|
       puts count
       count += 1
-      review = {}
+      review_product = {}
       break if get_review_per_page(path).nil?
-      review[:product_name] = path.split('-').join(' ')
-      review[:content] = get_review_per_page(path)
-      reviews << review
+      review_product[:product_name] = path.split('-').join(' ')
+      review_product[:content] = get_review_per_page(path)
+      data_reviews << review_product
     end
-    reviews
+    data_reviews
   end
 
   private
