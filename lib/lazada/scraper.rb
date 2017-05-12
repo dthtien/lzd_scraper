@@ -16,19 +16,25 @@ class LzdScraper
       puts count
       count += 1
       review = {}
+      break if get_review_per_page(path).nil?
       review[:product_name] = path.split('-').join(' ')
       review[:content] = get_review_per_page(path)
       reviews << review
+      break if count == 3
     end
     reviews
   end
 
   private
     def get_review_per_page(path)
+      reviews = []
       doc = Nokogiri::HTML(open("http://www.lazada.vn#{path}"))
       rating = doc.css('.ratingNumber>em')
       return nil if rating.nil? && rating.text.to_f < 3.0
-      doc.css('.ratRev_reviewListRow>.ratRev_revDetail').text
+      doc.css('.ratRev_reviewListRow>.ratRev_revDetail').each do |review|
+        reviews << review.text
+      end
+      reviews
     end
 
     def get_product_paths
